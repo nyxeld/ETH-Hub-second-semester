@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="icon" href="ETHbanner.png" type="png">
+<title>Bacteria go brrr</title>
+<style>
+#canvas {
+	display: grid;
+	justify-content: center;
+	gap: 10px;
+}
+#gameCanvas {
+	border: 1px solid black;
+	grid-column: 1;
+	grid-row: 2;
+}
+#graphCanvas {
+	display:block;
+	border: 1px solid black;
+}
+#nerdyStuff {
+	text-align:center;
+	place-content: end;
+	grid-column: 2;
+	grid-row: 2;
+}
+#buttons {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+	grid-row:-2;
+}
+#buttons button {
+	width: 83.3px;
+	height: 100px;
+}
+
+@media (max-width: 760px) {
+	#canvas {
+		grid-template-columns: 500px;
+		grid-template-rows: auto auto auto;
+	}
+	#graphCanvas {
+		margin-left: 25%;
+	}
+	#nerdyStuff {
+		grid-column: 1;
+		grid-row:3;
+	}
+	#gameCanvas {
+		justify-content: center;
+		grid-row:-3;
+	}
+}
+@media (max-width: 500px) {
+  #canvas {
+    grid-template-columns: 500px;
+    grid-template-rows: auto auto auto;
+    transform: scale(0.7);
+  }
+  #graphCanvas {
+    margin-left: 25%;
+  }
+  #nerdyStuff {
+    grid-column: 1;
+    grid-row:3;
+  }
+  #gameCanvas {
+    transform-origin: top left;
+    justify-content: center;
+    grid-row:-3;
+  }
+}
+</style>
+<link rel='stylesheet' href='./style.css'>
+</head>
+<top>
+  <navbar>
+    <a href='index.html'><img src='./ETHlogo.png' alt='ETHZ Hub'></a><br>
+    <a href='bio_II.html'>⌃ Bio II</a><br>
+    <a href='OC_II.html'>⌃ OC II</a><br>
+    <a href='physik_II.html'> ⌃ Physik II</a><br>
+    <a href='mathe.html'>⌃ Mathe</a><br>
+    <a href='statistik.html'>⌃ Statistik</a><br>
+    <a href='https://www.lehrbetrieb.ethz.ch/myStudies/studWillkommen.view' target='_blank' rel='noopener noreferrer' class='noDropDown'>myStudies</a><br>
+    <a href='https://eduapp.ethz.ch/schedule/week/2025-03-10' target='_blank' rel='noopener noreferrer' class='noDropDown'>EduApp</a><br>
+    <a href='bibliothek.html' class='noDropDown'>Bibliothek</a><br>
+    <a href='VeBiS.html' class='noDropDown'>VeBiS</a><br>
+    <a href='LochNess.html' class='noDropDown'>LochNess</a><br>
+    <a href='wirdIchBestah.html' class='noDropDown'>wirdIchBestah©</a><br>
+    <a href='bacteria_go_brrr.html' class='noDropDown' style='text-decoration: underline;'>Bacteria go brrr</a><br>
+  </navbar>
+<body>
+<page>
+<div id="canvas">
+	<div id='top'>
+		<div id='buttons'>
+			<button id="pause" onclick='togglePause()'>Start<br>(P)</button>
+			<button id="button1" onclick='button1()'>Reset<br>(1)</button>
+			<button id="button2" onclick='button2()'>Walls off<br>(2)</button>	
+			<button id="button3" onclick='button3()'>Hide Color<br>(3)</button>
+			<button id="button4" onclick='button4()'>Res: Low<br>(4)</button>
+			<button id="mutebutton" onclick='toggleMute()'> Mute<br>(M)</button>
+		</div>
+	</div>
+	<canvas id="gameCanvas" width=500 height=500></canvas>
+	<div id="nerdyStuff">
+		<p id='tracker'>Press P to play</p>
+		<canvas id="graphCanvas" width=250 height=250></canvas>
+	</div>
+</div>
+</div>
+<script>
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+const graph = document.getElementById('graphCanvas');
+const gctx = graph.getContext('2d');
+const bacteria = [];
+const graphPoints = [];
+let walls = true, mind = true, pause = true, mute = false, showWrongDirection = true, stop = false; foodSpeed = 1; view = false; sexPaused = [0,0];
+function drawBacterium(bacterium) {
+  ctx.save();
+  ctx.translate(bacterium.x, bacterium.y);
+  ctx.rotate(bacterium.angle * Math.PI / 180);
+  if (view) {
+    if (bacterium.isMoving === 0) {
+      ctx.beginPath();
+      ctx.moveTo(0, bacterium.radius);
+      ctx.lineTo(0, -bacterium.radius);
+      ctx.strokeStyle = '#ff00ff';
+      ctx.lineWidth = bacterium.radius/10;
+      ctx.stroke();
+    
+      ctx.beginPath();
+      ctx.moveTo(bacterium.radius * 1.7, 0);
+      ctx.lineTo(bacterium.radius * -1.7, 0);
+      ctx.strokeStyle = '#ff00ff';
+      ctx.lineWidth = bacterium.radius/9;
+      ctx.stroke();
+    } else {
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.lineTo(bacterium.radius * -2, 0);
+      ctx.strokeStyle = '#ff00ff';
+      ctx.lineWidth = bacterium.radius/6;
+      ctx.stroke();
+    }
+    ctx.beginPath();
+    ctx.ellipse(0, 0, bacterium.radius, bacterium.thickness, 0, 0, 2 * Math.PI);
+    ctx.fillStyle = bacterium.color;
+    ctx.fill();
+    ctx.stroke();
+    ctx.restore();
+  } else {
+    ctx.beginPath();
+    if (bacterium.radius > 20 && bacterium.thickness === 5) {
+      ctx.ellipse(-bacterium.radius+13, 0, 12, bacterium.thickness, 0, 0, 2 * Math.PI);
+      ctx.ellipse(bacterium.radius-13, 0, 12, bacterium.thickness, 0, 0, 2 * Math.PI);
+    } else ctx.ellipse(0, 0, bacterium.radius, bacterium.thickness, 0, 0, 2 * Math.PI);
+    ctx.fillStyle = bacterium.color;
+    ctx.fill();
+    ctx.restore();
+  }
+} function drawFood(food) {
+  if (food.radius < 0) {
+    food.x = Math.random() * 300 + 100;
+    food.y = Math.random() * 300 + 100;
+    food.radius = 0;
+    food.growthRate = 0;
+    food.whichColor = (food.whichColor === 5) ? 0 : food.whichColor+1;
+    }
+  ctx.clearRect(0, 0, 500, 500);
+  ctx.beginPath();
+  ctx.arc(food.x, food.y, food.radius, 0, 2 * Math.PI);
+  const gradient = ctx.createRadialGradient(food.x, food.y, 0, food.x, food.y, food.radius);
+  r = food.color[food.whichColor][0];
+  g = food.color[food.whichColor][1];
+  b = food.color[food.whichColor][2];
+  shade = Math.round(255-food.radius*255/550);
+  hex = [Math.max(r, shade).toString(16), Math.max(g, shade).toString(16), Math.max(b, shade).toString(16)];
+  hex.forEach((color) => {
+    if (shade >= 0) hex[hex.indexOf(color)] = hex[hex.indexOf(color)].padStart(2, '0');
+    });
+  gradient.addColorStop(0,`#${hex[0]}${hex[1]}${hex[2]}`);
+  gradient.addColorStop(1, 'white');
+  ctx.fillStyle = gradient;
+  ctx.fill();
+} function updateBacterium(bacterium, pos) {
+  if (bacterium.dead) bacteriumHydrolyze(bacterium);
+  else {
+    if (bacterium.isMoving === 0) bacteriumTumble(bacterium);
+    else bacteriumRun(bacterium, pos);
+    eatFood(bacterium, foodItem);
+  }
+  bacterium.deathClock-=0.5;
+  if (bacterium.ATPbattery <= 0 || bacterium.deathClock <= 0) {
+    if ((bacteria.indexOf(bacterium) === 0 && !mind) || bacteria.length === 0) {
+      pause = true;
+      button1();
+      togglePause();
+    }
+    bacterium.dead = true;
+  }
+} function bacteriumTumble(bacterium) {
+  bacterium.angle += 9;
+  if (bacterium.angle >= 360) bacterium.angle -= 360;
+  bacterium.tumbleTime++;
+  if (bacterium.tumbleTime >= bacterium.tumbleLength) {
+    bacterium.isMoving = 2;
+    bacterium.tumbleLength = Math.random() * 50 + 10;
+    bacterium.tumbleTime = 0;
+  }
+} function bacteriumRun(bacterium, pos) {
+  updateBacteriumPosition(bacterium);
+  if (walls) {
+    bacteriumBoink(bacterium);
+  } else {
+    bacteriumNoBoink(bacterium);
+  }
+  if ((mind || pos !== 0) && bacterium.whatTimeIsIt >= bacterium.timeToTumble) {
+    bacterium.isMoving = 0;
+    bacterium.whatTimeIsIt = 0;
+  }
+  else bacterium.whatTimeIsIt++;
+} function updateBacteriumPosition(bacterium) {
+  bacterium.x += bacterium.isMoving * Math.cos(bacterium.angle * Math.PI / 180);
+  bacterium.y += bacterium.isMoving * Math.sin(bacterium.angle * Math.PI / 180);
+} function bacteriumBoink(bacterium) {
+  if (bacterium.x < bacterium.radius + 3) handleLeftWallCollision(bacterium);
+  if (bacterium.x > 497 - bacterium.radius) handleRightWallCollision(bacterium);
+  if (bacterium.y > 497 - bacterium.radius) handleTopWallCollision(bacterium);
+  if (bacterium.y < bacterium.radius + 3) handleBottomWallCollision(bacterium);
+} function handleLeftWallCollision(bacterium) {
+  bacterium.x = bacterium.radius + 3;
+  if (checkBounce(2,bacterium)) {
+    bacterium.angle += 2*(90-bacterium.angle);
+    if (bacterium.angle < 0) bacterium.angle += 360;
+  }
+} function handleRightWallCollision(bacterium) {
+  bacterium.x = 497 - bacterium.radius;
+  if (checkBounce(0, bacterium)) {
+    bacterium.angle += 2*(90-bacterium.angle);
+    if (bacterium.angle < 0) bacterium.angle += 360;
+  }
+} function handleTopWallCollision(bacterium) {
+  bacterium.y = 497 - bacterium.radius;
+  if (checkBounce(1, bacterium)) {
+    bacterium.angle += 2*(180-bacterium.angle);
+    if (bacterium.angle < 0) bacterium.angle += 360;
+  }
+} function handleBottomWallCollision(bacterium) {
+  bacterium.y = bacterium.radius + 3;
+  if (checkBounce(3, bacterium)) {
+    bacterium.angle += 2*(180-bacterium.angle);
+    if (bacterium.angle < 0) bacterium.angle += 360;
+  }
+} function checkBounce(side, bacterium) {
+  if ((side == 0 && bacterium.angle >= 315) || (bacterium.angle <= side*90+45 && bacterium.angle >= side*90-45)) {
+    bacterium.isMoving = 0;
+    return false;
+  }
+  return true;
+} function bacteriumNoBoink(bacterium) {
+  if (bacterium.x < 0) bacterium.x += 500;
+  if (bacterium.x > 500) bacterium.x -= 500;
+  if (bacterium.y < 0) bacterium.y += 500;
+  if (bacterium.y > 500) bacterium.y -= 500;
+} function updateBacteriumColor(bacterium, distan, distanF) {
+  if (bacteria.indexOf(bacterium) === 0 && !mind) return 'purple';
+  else if (foodItem.radius !== 0 && distan < distanF && showWrongDirection && bacterium.isMoving !== 0) return 'red';
+  return '#ff73d0';
+} function eatFood(bacterium, foodItem) {
+  relevantGradient = foodItem.radius*0.8;
+  const foodPercent = ((relevantGradient) - Math.sqrt((foodItem.x - bacterium.x) ** 2 + (foodItem.y - bacterium.y) ** 2)) / (relevantGradient);
+  if (foodPercent > 0) {
+    foodItem.radius -= foodPercent * bacterium.radius / foodItem.radius / 15;
+    if (bacterium.ATPbattery < 10000) bacterium.ATPbattery += foodPercent * bacterium.radius/12 * 100;
+    else bacterium.radius += foodPercent * bacterium.radius / 3000;
+    if (bacterium.radius >= 24) split(bacterium);
+    bacteriumChemoreceptors(bacterium, foodPercent);
+  } 
+  else {
+    bacterium.ATPbattery -= bacterium.radius/12;
+    bacterium.color = updateBacteriumColor(bacterium, 1, 0);
+  }
+} function bacteriumHydrolyze(bacterium) {
+  bacterium.isMoving = 0;
+  bacterium.x = Math.round(bacterium.x);
+  bacterium.y = Math.round(bacterium.y);
+  bacterium.thickness+=1;
+  if (bacterium.thickness > bacterium.radius) {
+    bacteria.splice(bacteria.indexOf(bacterium), 1);
+    drawGraph();
+    deathCounter++;
+  }
+} function split(bacterium) {
+  const newBacterium = { ...bacterium, angle: bacterium.angle + 180, isMoving: 2, radius: 12, thickness: 5, tumbleTime: 0, tumbleLength: Math.random() * 50 + 10, timeToTumble: Math.random() * 50 + 10, whatTimeIsIt: 0, ATPbattery: 10000, deathClock: 10000, dead: false};
+  bacteria.push(newBacterium);
+  bacterium.radius = 12;
+  bacterium.deathClock = 10000;
+  drawGraph();
+} function bacteriumChemoreceptors(bacterium, percent) {
+  food = {x: foodItem.x, y: foodItem.y};
+  distan = distance({x: bacterium.x, y: bacterium.y}, food);
+  distanF = distance({x: bacterium.x + Math.cos(bacterium.angle * Math.PI / 180), y: bacterium.y + Math.sin(bacterium.angle * Math.PI / 180)}, food);
+  bacterium.timeToTumble = (distan < distanF) ? (Math.random() * (1-percent) * 200 + 10) : (Math.random() * (1-percent) * 500 + 100);
+  bacterium.color = updateBacteriumColor(bacterium, distan, distanF);
+} function distance(p1,p2) {
+  return Math.sqrt((p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2);
+} function animateFood(food) {
+  if (food.growthRate !== 0) {
+    change = Math.ceil(70/(food.radius+4))*food.growthRate/Math.abs(food.growthRate);
+    foodItem.radius += change;
+    foodItem.growthRate -= change;
+  }
+  else if (food.radius < 200) foodItem.growthRate = -200;
+  if (food.queue > 0 && food.radius === 0) {
+    foodItem.growthRate = 550;
+    foodItem.queue -= 1;
+  }
+  if (tick < 6000) tick+= foodSpeed;
+  else {
+    foodItem.queue += 1;
+    tick = 0;
+  }
+} function drawGraph() {
+  time = timeElapsed();
+  pop = bacteria.length;
+  maxpop = Math.max(pop, maxpop);
+  const point = {time: time*250, pop: pop*240}; 
+  graphPoints.push(point);
+  thick = (graphPoints.length < 5) ? 5/graphPoints.length : 1;
+  gctx.clearRect(0, 0, 250, 250);
+  graphPoints.forEach((point) => {
+    pos = graphPoints.indexOf(point);
+    if (pos > 0) {
+      last = [graphPoints[pos-1].time/time, 250-graphPoints[pos-1].pop/maxpop];
+      zis = [point.time/time, 250-point.pop/maxpop];
+      drawLine(last, zis, thick);
+    }
+  });
+} function drawLine(from, to, thick) {
+  gctx.beginPath();
+  gctx.moveTo(from[0], from[1]);
+  gctx.lineTo(to[0], to[1]);
+  if (from[1] >= to[1]) gctx.strokeStyle = 'green';
+  else gctx.strokeStyle = 'red';
+  gctx.lineWidth = thick;
+  gctx.stroke();
+} function togglePause() {
+  if (typeof deathCounter !== 'undefined') pause = !pause;
+  else {
+    button1();
+    timePaused[0]=0;
+  } if (!mute) playPing('square', 100);
+  if (pause) {
+    document.getElementById("pause").innerHTML = "Resume<br>(P)";
+    document.getElementById("tracker").innerHTML = "Stahp";
+    document.getElementById("button1").innerHTML = "Reset<br>(1)";
+    document.getElementById("button2").innerHTML = walls ? "Walls off<br>(2)" : "Walls on<br>(2)";
+    sexPaused[0] = Math.floor(Date.now() / 1000);
+  } else {
+    document.getElementById("pause").innerHTML = "Pause<br>(P)";
+    document.getElementById("button1").innerHTML = mind ? "CPU on<br>(1)" : "CPU off<br>(1)";
+    document.getElementById("button2").innerHTML = "Control<br>(2)";
+    sexPaused[1] = Math.floor(Date.now() / 1000)-sexPaused[0];
+  }
+  updateButton3Text();
+  updateButton4Text();
+} function button1() {
+  if (pause) {
+    if (bacteria.lenght !== 0) bacteria.splice(0, bacteria.length);
+    if (graphPoints.lenght !== 0) graphPoints.splice(0, graphPoints.length);
+    maxpop = 2;
+    alltime = 1;
+    const bacterium = {x: 250, y: 250, angle: 0, isMoving: 2, radius: 12, thickness: 5, tumbleTime: 0, tumbleLength: Math.random() * 50 + 10, timeToTumble: Math.random() * 50 + 10, whatTimeIsIt: 0, color: '#ff73d0', ATPbattery: 10000, deathClock: 10000, dead: false,};
+    startTime = Math.floor(Date.now() / 1000);
+    bacteria.push(bacterium);
+    deathCounter = 0;
+    foodItem = {x: Math.random() * 300 + 100, y: Math.random() * 300 + 100, radius: 0, color: [[255,0,0], [255,255,0], [0,255,0], [0,255,255], [0,0,255], [255,0,255]], whichColor: 1, growthRate: 0, queue : 1};
+    tick = 0;
+    drawGraph();
+    drawLine([0,62.5],[250,62.5], 5);
+    togglePause();
+    sexPaused = [0,0];
+  } else {
+    mind = !mind;
+    document.getElementById("button1").innerHTML = mind ? "CPU on<br>(1)" : "CPU off<br>(1)";
+    if (!mute) playPing('square', 200);
+  }
+} function button2() {
+  if (pause) {
+    walls = !walls;
+    updateWallsButtonText();
+    if (!mute) playPing('square', 300);
+  } else if (bacteria.length !== 0) {
+    bacteria[0].isMoving = 0;
+  }
+} function button3() {
+  if (pause) {
+    showWrongDirection = !showWrongDirection;
+  }
+  else {
+    foodSpeed = (foodSpeed === 10) ? 0 : foodSpeed+1;
+  }
+  updateButton3Text();
+  if (!mute) playPing('square', 500);
+} function button4() {
+  if (pause) {
+    view = !view;
+    drawFood(foodItem);
+    bacteria.forEach(drawBacterium);
+    document.getElementById("button4").innerHTML = view ? "Res: High<br>(4)" : "Res: Low<br>(4)";
+  } else if (bacteria.length !== 0) split(bacteria[0]);
+  if (!mute) playPing('square', 600);
+} function toggleMute() {
+  mute = !mute;
+  updateMuteButtonText();
+  if (!mute) playPing('square', 700);
+} function playPing(type, freq) {
+  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  const oscillator = audioContext.createOscillator();
+  const gainNode = audioContext.createGain();
+  oscillator.type = type;
+  oscillator.frequency.setValueAtTime(freq, audioContext.currentTime);
+  gainNode.gain.setValueAtTime(0.5, audioContext.currentTime);
+  gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.1);
+  oscillator.connect(gainNode);
+  gainNode.connect(audioContext.destination);
+  oscillator.start(audioContext.currentTime);
+  oscillator.stop(audioContext.currentTime + 0.1);
+} function updateWallsButtonText() {
+  document.getElementById("button2").innerHTML = walls ? "Walls off<br>(2)" : "Walls on<br>(2)";
+} function updateButton3Text() {
+  if (pause) document.getElementById("button3").innerHTML = showWrongDirection ? "Hide color<br>(3)" : "Show color<br>(3)";
+  else document.getElementById("button3").innerHTML = `Food: ${foodSpeed}<br>(3)`;
+} function updateButton4Text() {
+  if (pause) document.getElementById("button4").innerHTML = view ? "Res: High<br>(4)" : "Res: Low<br>(4)";
+  else document.getElementById("button4").innerHTML = `Split<br>(4)`;
+} function updateMuteButtonText() {
+  document.getElementById("mutebutton").innerHTML = mute ? "Unmute<br>(M)" : "Mute<br>(M)";
+} function timeElapsed() {
+  return Math.floor(Date.now() / 1000)-startTime-sexPaused[1];
+} document.addEventListener('keydown', (event) => {
+  if (!stop) {
+    stop = true;
+    switch (event.code) {
+      case 'KeyP':
+        togglePause();
+        break;
+      case 'Digit1':
+        button1();
+        break;
+      case 'Digit2':
+        button2();
+        break;
+      case 'Space':
+        bacteria[0].isMoving = 0;
+        break;
+      case 'Digit3':
+        button3();
+        break;
+      case 'Digit4':
+        button4();
+        break;
+      case 'KeyM':
+        toggleMute();
+      case 'KeyD':
+        bacteria[0].dead = true;
+        break;
+      default:
+        stop = false;
+    }
+  } else if (event.code === 'Digit4' && bacteria.length !== 0) {
+    split(bacteria[0]);
+  }
+});
+document.addEventListener('keyup', (event) => {
+  stop = false;
+}); 
+function gameLoop() {
+  if (!pause) {
+    bacteria.forEach(updateBacterium);
+    document.getElementById("tracker").innerHTML = `|| Population: ${bacteria.length} || Max: ${maxpop} ||<br>|| Dead: ${deathCounter} || Time: ${timeElapsed()} ||`;
+    animateFood(foodItem);
+    drawFood(foodItem);
+    bacteria.forEach(drawBacterium);
+  }
+  requestAnimationFrame(gameLoop);
+}
+gameLoop();
+</script>
+</body>
+</page>
+</top>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="icon" href="ETHbanner.png" type="png">
+<title>ETHZ Hub</title>
+<link rel='stylesheet' href='./style.css'>
+<style>
+  input[type="number"] {
+    width: 45px;
+  }
+ page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+</style>
+</head>
+<top>
+  <navbar>
+    <a href='index.html'><img src='./ETHlogo.png' alt='ETHZ Hub'></a><br>
+    <a href='bio_II.html'>⌃ Bio II</a><br>
+    <a href='OC_II.html'>⌃ OC II</a><br>
+    <a href='physik_II.html'> ⌃ Physik II</a><br>
+    <a href='mathe.html'>⌃ Mathe</a><br>
+    <a href='statistik.html'>⌃ Statistik</a><br>
+    <a href='https://www.lehrbetrieb.ethz.ch/myStudies/studWillkommen.view' target='_blank' rel='noopener noreferrer' class='noDropDown'>myStudies</a><br>
+    <a href='https://eduapp.ethz.ch/schedule/week/2025-03-10' target='_blank' rel='noopener noreferrer' class='noDropDown'>EduApp</a><br>
+    <a href='bibliothek.html' class='noDropDown'>Bibliothek</a><br>
+    <a href='VeBiS.html' class='noDropDown'>VeBiS</a><br>
+    <a href='LochNess.html' class='noDropDown'>LochNess</a><br>
+    <a href='wirdIchBestah.html' class='noDropDown' style='text-decoration: underline;'>wirdIchBestah©</a><br>
+    <a href='bacteria_go_brrr.html' class='noDropDown'>Bacteria go brrr</a><br>
+  </navbar>
+<page>  
+<div class='background' style="background-image: url('doubt.jpg');"></div>
+<body>
+<h2>wirdIchBestah©</h2>
+
+<div>
+  <label for="BIO">Bio (%):</label>
+  <input type="range" id="BIO" min="0" max="100" value="0" oninput="updateBIO()">
+  <input type="number" id="BIOInput" min="0" max="100" value="0" oninput="updateBIOFromInput()"> 
+</div>
+
+<div>
+  <label for="OC">OC (%):</label>
+  <input type="range" id="OC" min="0" max="100" value="0" oninput="updateOC()">
+  <input type="number" id="OCInput" min="0" max="100" value="0" oninput="updateOCFromInput()"> 
+</div>
+
+<div>
+  <label for="Physics">Physics (%):</label>
+  <input type="range" id="Physics" min="0" max="100" value="0" oninput="updatePhysics()">
+  <input type="number" id="PhysicsInput" min="0" max="100" value="0" oninput="updatePhysicsFromInput()"> 
+</div>
+
+<div>
+  <label for="Mathe">Mathe (%):</label>
+  <input type="range" id="Mathe" min="0" max="100" value="0" oninput="updateMathe()">
+  <input type="number" id="MatheInput" min="0" max="100" value="0" oninput="updateMatheFromInput()"> 
+</div>
+
+<div>
+  <label for="Statistik">Statistik (%):</label>
+  <input type="range" id="Statistik" min="0" max="100" value="0" oninput="updateStatistik()">
+  <input type="number" id="StatistikInput" min="0" max="100" value="0" oninput="updateStatistikFromInput()"> 
+</div>
+
+<p id="result"><br><br></p>
+
+<script>
+  function updateBIO() {
+    const slider = document.getElementById("BIO");
+    const input = document.getElementById("BIOInput");
+    let sliderValue = slider.value;
+    input.value = sliderValue;
+    calculate();
+  }
+  function updateBIOFromInput() {
+    const slider = document.getElementById("BIO");
+    const input = document.getElementById("BIOInput");
+    let inputValue = input.value;
+    inputValue = Math.max(0, Math.min(100, inputValue)); // Input Validation
+    input.value = inputValue;
+    slider.value = inputValue;
+    calculate();
+  }
+  // Similar structure for updateOC, updatePhysics, updateMathe, updateStatistik
+  function updateOC() {
+    const slider = document.getElementById("OC");
+    const input = document.getElementById("OCInput");
+    let sliderValue = slider.value;
+    input.value = sliderValue;
+    calculate();
+  }
+  function updateOCFromInput() {
+    const slider = document.getElementById("OC");
+    const input = document.getElementById("OCInput");
+    let inputValue = input.value;
+    inputValue = Math.max(0, Math.min(100, inputValue));
+    input.value = inputValue;
+    slider.value = inputValue;
+    calculate();
+  }
+  function updatePhysics() {
+    const slider = document.getElementById("Physics");
+    const input = document.getElementById("PhysicsInput");
+    let sliderValue = slider.value;
+    input.value = sliderValue;
+    calculate();
+  }
+  function updatePhysicsFromInput() {
+    const slider = document.getElementById("Physics");
+    const input = document.getElementById("PhysicsInput");
+    let inputValue = input.value;
+    inputValue = Math.max(0, Math.min(100, inputValue));
+    input.value = inputValue;
+    slider.value = inputValue;
+    calculate();
+  }
+  function updateMathe() {
+    const slider = document.getElementById("Mathe");
+    const input = document.getElementById("MatheInput");
+    let sliderValue = slider.value;
+    input.value = sliderValue;
+    calculate();
+  }
+  function updateMatheFromInput() {
+    const slider = document.getElementById("Mathe");
+    const input = document.getElementById("MatheInput");
+    let inputValue = input.value;
+    inputValue = Math.max(0, Math.min(100, inputValue));
+    input.value = inputValue;
+    slider.value = inputValue;
+    calculate();
+  }
+  function updateStatistik() {
+    const slider = document.getElementById("Statistik");
+    const input = document.getElementById("StatistikInput");
+    let sliderValue = slider.value;
+    input.value = sliderValue;
+    calculate();
+  }
+  function updateStatistikFromInput() {
+    const slider = document.getElementById("Statistik");
+    const input = document.getElementById("StatistikInput");
+    let inputValue = input.value;
+    inputValue = Math.max(0, Math.min(100, inputValue));
+    input.value = inputValue;
+    slider.value = inputValue;
+    calculate();
+  }
+  function calculate() {
+    const BIO = Number(document.getElementById("BIO").value) || 0;
+    const OC = Number(document.getElementById("OC").value) || 0;
+    const Physics = Number(document.getElementById("Physics").value) || 0;
+    const Mathe = Number(document.getElementById("Mathe").value) || 0;
+    const Statistik = Number(document.getElementById("Statistik").value) || 0;
+
+    let result = Math.floor((BIO * 8 + OC * 5 + Physics * 6 + Mathe * 8 + Statistik * 3) / 29);
+
+    const resultElement = document.getElementById("result"); // Store the element reference
+
+    if (result > 49) {
+      resultElement.innerHTML = result + "%<br>Du wirsch bestah :)";
+    } else {
+      resultElement.innerHTML = result + "%<br>Du wirsch nöt bestah :(";
+    }
+  }
+</script>
+</page>
+</top>
+</body>
+</html>
