@@ -4,7 +4,7 @@ top {
     display: grid;
     justify-content: center;
     grid-template-rows: 97vh;
-    grid-template-columns: 205px auto;
+    grid-template-columns: 206px auto;
 }
 
 top > div {
@@ -14,7 +14,7 @@ top > div {
 }
 
 navbar {
-    width: 205px;
+    width: 206px;
     position: fixed;
     background-size: cover;
     background-color: white;
@@ -57,7 +57,7 @@ iframe {
 .background {
       position: fixed;
       top: 0;
-      left: 205px;
+      left: 207px;
       width: 100%;
       height: 100%;
       background-size: cover;
