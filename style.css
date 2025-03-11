@@ -4,7 +4,7 @@ top {
     display: grid;
     justify-content: center;
     grid-template-rows: 97vh;
-    grid-template-columns: 23vw 76vw;
+    grid-template-columns: 20vw 79vw;
 }
 
 top > div {
@@ -20,7 +20,7 @@ navbar {
     line-height: 2.0;
 }
 navbar img {
-    width: 17vw;
+    width: 16vw;
     height: auto;
 }
 navbar .dropdown {
