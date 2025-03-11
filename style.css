@@ -4,7 +4,7 @@ top {
     display: grid;
     justify-content: center;
     grid-template-rows: 97vh;
-    grid-template-columns: 20vw 79vw;
+    grid-template-columns: 16vw 83vw;
 }
 
 top > div {
