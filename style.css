@@ -14,7 +14,7 @@ top > div {
 }
 
 navbar {
-    width: 206px;
+    width: 100%;
     position: fixed;
     background-size: cover;
     background-color: white;
