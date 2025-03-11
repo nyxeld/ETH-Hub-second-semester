@@ -4,7 +4,7 @@ top {
     display: grid;
     justify-content: center;
     grid-template-rows: 97vh;
-    grid-template-columns: 16vw 83vw;
+    grid-template-columns: auto auto;
 }
 
 top > div {
@@ -14,13 +14,16 @@ top > div {
 }
 
 navbar {
+    width: 205px;
+    position: fixed;
+    background-size: cover;
     background-color: white;
     overflow: auto;
     grid-column: 1;
     line-height: 2.0;
 }
 navbar img {
-    width: 16vw;
+    width: 100px;
     height: auto;
 }
 navbar .dropdown {
