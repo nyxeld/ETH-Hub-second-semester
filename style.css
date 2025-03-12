@@ -3,7 +3,7 @@ top {
     font-family: Arial;
     display: grid;
     grid-template-rows: 100vh;
-    grid-template-columns: 210px auto;
+    grid-template-columns: 210px calc(100vw - 210px);
 }
 
 top > div {
@@ -57,8 +57,8 @@ iframe {
 .background {
       position: fixed;
       top: 0;
-      left: 210px;
-      width: 100vw;
+      left: 218px;
+      width: calc(100vw - 210px);
       height: 50vh;
       background-size: cover;
       background-repeat: no-repeat;
