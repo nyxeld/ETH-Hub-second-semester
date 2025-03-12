@@ -13,7 +13,7 @@ top > div {
 }
 
 navbar {
-    width: 210px;
+    width: auto;
     height: 100%;
     position: fixed;
     background-size: cover;
