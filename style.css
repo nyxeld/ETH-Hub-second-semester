@@ -48,7 +48,7 @@ iframe {
     width: calc(100vw - 228px);
     height: 100vh;
     display: block;
-    left: 228px;
+    margin-left: 228px;
 }
 .background {
       position: fixed;
