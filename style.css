@@ -60,3 +60,17 @@ iframe {
       z-index: -1;
       opacity: 0.5;
 }
+
+@media (max-width: 841px) {
+navbar {
+    visibility: hidden;
+}
+iframe {
+    width: 97vw;
+    margin-left: 0px;
+}
+.background {
+    width: 100vw;
+    left: 0px;
+}
+}
