@@ -24,13 +24,12 @@
   </navbar>
   <page>
     <div class='background' style="background-image: url('./homepage.jpg');"></div>
-    <button id="showNav">=</button>
+    <button id="showNav" onclick='showNav()'>=</button>
   </page>
 </top>
 <script>
-  const showNav = document.getElementById('showButton');
   const navbar = document.getElementById('navbar');
-  showNav.addEventListener('click', function() {
+  function showNav() {
     navbar.style.visibility = 'visible';
   });
 </script>
