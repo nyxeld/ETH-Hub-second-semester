@@ -54,7 +54,7 @@ iframe {
       top: 0;
       left: 236px;
       width: calc(100vw - 236px);
-      height: 97vh;
+      height: 100vh;
       background-size: cover;
       background-repeat: no-repeat;
       z-index: -1;
