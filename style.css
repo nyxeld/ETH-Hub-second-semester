@@ -11,7 +11,7 @@ top > div {
 }
 
 navbar {
-    width: auto;
+    width: 228px;
     height: 100%;
     position: fixed;
     background-size: cover;
@@ -45,7 +45,7 @@ page {
 }
 iframe {
     border: none;
-    width: calc(100vw - 220px);
+    width: calc(100vw - 228px);
     height: 100vh;
     display: block;
     left: 228px;
@@ -54,7 +54,7 @@ iframe {
       position: fixed;
       top: 0;
       left: 228px;
-      width: calc(100vw - 220px);
+      width: calc(100vw - 228px);
       height:100vh;
       background-size: cover;
       background-repeat: no-repeat;
