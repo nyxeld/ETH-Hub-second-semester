@@ -2,8 +2,8 @@
 top {
     font-family: Arial;
     display: grid;
-    top:0;
-    left:0;
+    margin:0;
+    padding:0;
     grid-template-rows: 97vh;
     grid-template-columns: 210px auto;
 }
