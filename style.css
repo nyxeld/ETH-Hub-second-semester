@@ -29,6 +29,9 @@ navbar img {
 navbar .dropdown {
     margin: 60px;
 }
+navbar .noDropDown {
+    margin: 40px;
+}
 a {
     font-size: 18px;
     margin: 20px;
@@ -37,9 +40,6 @@ a {
 }
 a:hover {
     opacity: 0.8;
-}
-.noDropDown {
-    margin: 40px;
 }
 page {
     overflow: auto;
