@@ -1,4 +1,3 @@
-
 top {
     font-family: Arial;
     display: block;
@@ -48,12 +47,12 @@ iframe {
     width: calc(100vw - 251px);
     height: 97vh;
     display: block;
-    margin-left: 228px;
+    margin-left: 236px;
 }
 .background {
       position: fixed;
       top: 0;
-      left: 228px;
+      left: 236px;
       width: calc(100vw - 251px);
     height: 97vh;
       background-size: cover;
