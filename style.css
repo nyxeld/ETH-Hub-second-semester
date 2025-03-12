@@ -45,7 +45,7 @@ page {
 iframe {
     border: none;
     width: calc(100vw - 244px);
-    height: 98vh;
+    height: 97vh;
     display: block;
     margin-left: 236px;
 }
@@ -54,7 +54,7 @@ iframe {
       top: 0;
       left: 236px;
       width: calc(100vw - 236px);
-    height: 97vh;
+      height: 97vh;
       background-size: cover;
       background-repeat: no-repeat;
       z-index: -1;
