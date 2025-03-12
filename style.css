@@ -2,9 +2,7 @@
 top {
     font-family: Arial;
     display: grid;
-    margin:0;
-    padding:0;
-    grid-template-rows: 97vh;
+    grid-template-rows: 100vh;
     grid-template-columns: 210px auto;
 }
 
