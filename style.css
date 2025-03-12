@@ -20,7 +20,7 @@ navbar {
     background-color: white;
     overflow: auto;
     grid-column: 1;
-    line-height: 2.0;
+    line-height: 3.0;
 }
 navbar img {
     width: 100px;
