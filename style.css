@@ -50,7 +50,7 @@ iframe {
     border: none;
     width: 97vw;
     height: 97vh;
-    display: block;
+    display: inline;
     margin-left: 0px;
 }
 .background {
