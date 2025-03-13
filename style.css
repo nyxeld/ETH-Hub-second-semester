@@ -17,6 +17,7 @@ navbar {
     background-color: white;
     overflow: auto;
     line-height: 2;
+    visibility: hidden;
 }
 navbar img {
     width: 100px;
@@ -44,16 +45,16 @@ page {
 }
 iframe {
     border: none;
-    width: calc(100vw - 244px);
+    width: 97vw;
     height: 97vh;
     display: block;
-    margin-left: 236px;
+    margin-left: 0px;
 }
 .background {
       position: fixed;
       top: 0;
-      left: 236px;
-      width: calc(100vw - 236px);
+      left: 0px;
+      width: 100vw;
       height: 100vh;
       background-size: cover;
       background-repeat: no-repeat;
@@ -61,16 +62,16 @@ iframe {
       opacity: 0.5;
 }
 
-@media (max-width: 841px) {
+@media (min-width: 841px) {
 navbar {
-    visibility: hidden;
+    visibility: visible;
 }
 iframe {
-    width: 97vw;
-    margin-left: 0px;
+    width: calc(100vw - 244px);
+    margin-left: 236px;
 }
 .background {
-    width: 100vw;
-    left: 0px;
+    width: calc(100vw - 236px);
+    left: 236px;
 }
 }
