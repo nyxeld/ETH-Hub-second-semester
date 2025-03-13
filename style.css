@@ -29,6 +29,9 @@ navbar .dropdown {
 navbar .noDropDown {
     margin: 40px;
 }
+#hideNav {
+    display: block;
+}
 a {
     font-size: 18px;
     margin: 20px;
@@ -65,6 +68,9 @@ iframe {
 @media (min-width: 841px) {
 navbar {
     visibility: visible;
+}
+#hideNav {
+    display: none;
 }
 iframe {
     width: calc(100vw - 244px);
