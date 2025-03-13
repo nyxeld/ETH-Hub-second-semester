@@ -34,7 +34,7 @@ navbar .noDropDown {
 #hideNav {
     display: block;
 }
-.backgrop {
+.backdrop {
       position: fixed;
       top: 0px;
       left: 0px;
