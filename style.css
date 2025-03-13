@@ -45,6 +45,7 @@ page {
     overflow: auto;
     width: 100%;
     height: auto;
+    top: 30px;
 }
 iframe {
     border: none;
@@ -52,10 +53,11 @@ iframe {
     height: 97vh;
     display: inline;
     margin-left: 0px;
+    margin-top: 30px;
 }
 .background {
       position: fixed;
-      top: 0;
+      top: 30px;
       left: 0px;
       width: 100vw;
       height: 100vh;
@@ -79,5 +81,12 @@ iframe {
 .background {
     width: calc(100vw - 236px);
     left: 236px;
+    top:0px;
+}
+page {
+    top: 0px;
+}
+iframe {   
+    margin-top: 0px;
 }
 }
