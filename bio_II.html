@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="ETHbanner.png" type="png">
 <title>ETHZ Hub</title>
 <link rel='stylesheet' href='./style.css'>
@@ -8,6 +9,8 @@
 <body>
 <top>
   <navbar>
+    <div class='backdrop'></div>
+    <a id='hideNav' href='javascript:void(0);' onclick='hideNav()'>x</a><br>
     <a href='index.html'><img src='./ETHlogo.png' alt='ETHZ Hub'></a><br>
     <a href='bio_II.html' style='text-decoration: underline;'>⌄ Bio II</a><br>
       <a href='https://moodle-app2.let.ethz.ch/course/view.php?id=24368' target='_blank' rel='noopener noreferrer' class='dropdown'>Moodle</a><br>
@@ -25,9 +28,25 @@
     <a href='wirdIchBestah.html' class='noDropDown'>wirdIchBestah©</a><br>
     <a href='bacteria_go_brrr.html' class='noDropDown'>Bacteria go brrr</a><br>
   </navbar>
+  <navbar id='smolnavbar'>
+    <a href='javascript:void(0);' onclick='showNav()'>☰</a>
+    <a href='https://www.ethzhub.ch/'><img src='./ETHlogo.png' alt='ETHZ Hub'></a><br>
+  </navbar>
   <page>
     <div class='background' style="background-image: url('./biowallpaper.jpg');"></div>
   </page>
 </top>
+<script>
+  const navbar = document.getElementById('navbar');
+  const smolnavbar = document.getElementById('smolnavbar');
+  function showNav() {
+    navbar.style.visibility = 'visible';
+    smolnavbar.style.visibility = 'hidden';
+  };
+  function hideNav() {
+    smolnavbar.style.visibility = 'visible';
+    navbar.style.visibility = 'hidden';
+  };
+</script>
 </body>
 </html>
