@@ -8,16 +8,18 @@ top > div {
     align-items: center;
     justify-content: center;
 }
-
 navbar {
-    width: 228px;
-    height: 100%;
     position: fixed;
-    background-size: cover;
-    background-color: white;
     overflow: auto;
     line-height: 2;
+}
+#navbar {
+    width: 228px;
+    height: 100%;
     visibility: hidden;
+}
+#smolnavbar {
+    visibility: visible;
 }
 navbar img {
     width: 100px;
@@ -70,6 +72,9 @@ iframe {
 @media (min-width: 841px) {
 navbar {
     visibility: visible;
+}
+#smolnavbar {
+    visibility: hidden;
 }
 #hideNav {
     display: none;
