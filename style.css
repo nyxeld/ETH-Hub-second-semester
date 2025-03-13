@@ -19,7 +19,6 @@ navbar {
     visibility: hidden;
 }
 #smolnavbar {
-    height: 30px;
     visibility: visible;
 }
 navbar img {
