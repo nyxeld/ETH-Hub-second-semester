@@ -35,10 +35,13 @@
 </top>
 <script>
   const navbar = document.getElementById('navbar');
+  const smolnavbar = document.getElementById('smolnavbar');
   function showNav() {
     navbar.style.visibility = 'visible';
+    smolnavbar.style.visibility = 'hidden';
   };
   function hideNav() {
+    smolnavbar.style.visibility = 'visible';
     navbar.style.visibility = 'hidden';
   };
 </script>
